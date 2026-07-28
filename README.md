@@ -57,8 +57,8 @@ kubelogin --version
 ### Clone the repository
 
 ```bash
-git clone <repository-url>
-cd <repository-name>
+git clone https://github.com/murkisairaghava/akscontextswitch.git
+cd akscontextswitch
 ```
 
 ### Copy the script
