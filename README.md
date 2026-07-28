@@ -150,15 +150,6 @@ ctx add <alias> <subscription-id> <resource-group> <aks-name>
 Example:
 
 ```bash
-ctx add papa-we \
-f1edad0e-3c56-4c3a-854d-5f76d51b6f9c \
-rg-np-we-p30119-papa \
-aks-np-we-p30119-papa
-```
-
-Another example:
-
-```bash
 ctx add prod-west \
 12345678-1234-1234-1234-123456789abc \
 rg-production-west \
@@ -200,7 +191,7 @@ ctx switch <alias>
 Example:
 
 ```bash
-ctx switch papa-we
+ctx switch prod-west
 ```
 
 ***
@@ -214,7 +205,7 @@ ctx current
 Example output:
 
 ```text
-aks-np-we-p30119-papa
+aks-production-west
 ```
 
 ***
@@ -229,8 +220,8 @@ Example:
 
 ```text
 CURRENT   NAME
-*         aks-np-we-p30119-papa
-          aks-np-ne-p30119-papa
+*         aks-production-west
+          aks-development-north
           docker-desktop
 ```
 
@@ -247,10 +238,10 @@ ctx clusters
 Example:
 
 ```text
-alpha-we
-mpeudt-we
-papa-ne
-papa-we
+dev-we
+acc-we
+production-west
+production-north
 ```
 
 ***
@@ -266,7 +257,7 @@ ctx delete <alias>
 Example:
 
 ```bash
-ctx delete papa-we
+ctx delete development-west
 ```
 
 ⚠️ This only removes the local Kubernetes context.
@@ -290,7 +281,7 @@ ctx remove-cluster <alias>
 Example:
 
 ```bash
-ctx remove-cluster papa-we
+ctx remove-cluster development-west
 ```
 
 ⚠️ This does not modify kubeconfig.
@@ -304,30 +295,26 @@ Use `ctx delete` if you also want to remove the Kubernetes context.
 ### Register clusters
 
 ```bash
-ctx add papa-we \
-f1edad0e-3c56-4c3a-854d-5f76d51b6f9c \
-rg-np-we-p30119-papa \
-aks-np-we-p30119-papa
+ctx add production-west \
+12345678-1234-1234-1234-123456789abc \
+rg-aks-production \
+aks-west-production
 
-ctx add papa-ne \
-f1edad0e-3c56-4c3a-854d-5f76d51b6f9c \
-rg-np-ne-p30119-papa \
-aks-np-ne-p30119-papa
 ```
 
 ### Create contexts
 
 ```bash
-ctx create papa-we
-ctx create papa-ne
+ctx create production-west
+ctx create development-north
 ```
 
 ### Switch between contexts
 
 ```bash
-ctx switch papa-we
+ctx switch production-west
 
-ctx switch papa-ne
+ctx switch production-north
 ```
 
 ### Verify current context
@@ -345,13 +332,13 @@ ctx list
 ### Delete a local context
 
 ```bash
-ctx delete papa-we
+ctx delete development-west
 ```
 
 ### Remove cluster definition
 
 ```bash
-ctx remove-cluster papa-we
+ctx remove-cluster development-west
 ```
 
 ***
@@ -370,6 +357,3 @@ This makes it reusable across teams, subscriptions, environments, and Azure land
 
 ***
 
-# License
-
-MIT License (or update according to your organisation's preferred licence).
