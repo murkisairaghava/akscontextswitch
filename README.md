@@ -66,7 +66,7 @@ cd akscontextswitch
 ```bash
 mkdir -p ~/scripts
 
-cp ctx.sh ~/scripts/
+cp contextswitch.sh ~/scripts/
 ```
 
 ### Load the script automatically
