@@ -4,7 +4,7 @@ A lightweight shell utility for managing Azure Kubernetes Service (AKS) contexts
 
 The script works with both **Bash** and **Zsh** and removes the need to remember subscription IDs, resource group names, and AKS cluster names.
 
-***
+---
 
 ## Features
 
@@ -26,11 +26,11 @@ The script works with both **Bash** and **Zsh** and removes the need to remember
 
 ✅ Existing kubeconfig contexts remain untouched
 
-***
+---
 
 ## Prerequisites
 
-The following tools must be installed and available in your PATH:
+The following tools must be installed and available in your PATH.
 
 ### Azure CLI
 
@@ -50,26 +50,26 @@ kubectl version --client
 kubelogin --version
 ```
 
-***
+---
 
 ## Installation
 
-### Clone the repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/murkisairaghava/akscontextswitch.git
 cd akscontextswitch
 ```
 
-### Copy the script
+### Copy the Script
 
 ```bash
 mkdir -p ~/scripts
 
-cp contextswitch.sh ~/scripts/
+cp ctx.sh ~/scripts/
 ```
 
-### Load the script automatically
+### Load the Script Automatically
 
 #### Bash
 
@@ -85,7 +85,7 @@ echo 'source ~/scripts/ctx.sh' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-***
+---
 
 ## Optional Tenant Configuration
 
@@ -95,7 +95,7 @@ If your organisation uses a specific Azure tenant, configure it once in your she
 export AKS_DEFAULT_TENANT_ID="<tenant-id>"
 ```
 
-Examples:
+Example:
 
 ```bash
 echo 'export AKS_DEFAULT_TENANT_ID="<tenant-id>"' >> ~/.zshrc
@@ -107,7 +107,7 @@ or
 echo 'export AKS_DEFAULT_TENANT_ID="<tenant-id>"' >> ~/.bashrc
 ```
 
-***
+---
 
 # Cluster Configuration
 
@@ -126,16 +126,16 @@ alias|subscription-id|resource-group|aks-name
 Example:
 
 ```text
-papa-we|f1edad0e-3c56-4c3a-854d-5f76d51b6f9c|rg-np-we-p30119-papa|aks-np-we-p30119-papa
+dev-west|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|rg-dev-west|aks-dev-west
 
-papa-ne|f1edad0e-3c56-4c3a-854d-5f76d51b6f9c|rg-np-ne-p30119-papa|aks-np-ne-p30119-papa
+dev-east|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|rg-dev-east|aks-dev-east
 
-mpeudt-we|27d1246d-e682-4008-8105-50e8bd033fa6|rg-np-we-p30119-mpeudt|aks-np-we-p30119-mpeudt
+prod-west|yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy|rg-prod-west|aks-prod-west
 ```
 
-This design allows the script to work with any AKS naming convention.
+> **Note:** The examples in this README use generic cluster aliases, subscription IDs, resource groups, and AKS names. Replace them with values that match your own Azure environment.
 
-***
+---
 
 # Usage
 
@@ -150,23 +150,32 @@ ctx add <alias> <subscription-id> <resource-group> <aks-name>
 Example:
 
 ```bash
-ctx add prod-west \
-12345678-1234-1234-1234-123456789abc \
-rg-production-west \
-aks-production-west
+ctx add dev-west \
+xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
+rg-dev-west \
+aks-dev-west
 ```
 
-***
+Another example:
+
+```bash
+ctx add prod-west \
+yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy \
+rg-prod-west \
+aks-prod-west
+```
+
+---
 
 ## Create / Refresh AKS Context
 
 Creates or refreshes the Kubernetes context by:
 
-* Logging into Azure
-* Setting the subscription
-* Retrieving AKS credentials
-* Converting kubeconfig using kubelogin
-* Switching to the AKS context
+- Logging into Azure
+- Setting the subscription
+- Retrieving AKS credentials
+- Converting kubeconfig using kubelogin
+- Switching to the AKS context
 
 ```bash
 ctx create <alias>
@@ -175,10 +184,10 @@ ctx create <alias>
 Example:
 
 ```bash
-ctx create papa-we
+ctx create dev-west
 ```
 
-***
+---
 
 ## Switch Context
 
@@ -191,10 +200,10 @@ ctx switch <alias>
 Example:
 
 ```bash
-ctx switch prod-west
+ctx switch dev-west
 ```
 
-***
+---
 
 ## Show Current Context
 
@@ -205,10 +214,10 @@ ctx current
 Example output:
 
 ```text
-aks-production-west
+aks-dev-west
 ```
 
-***
+---
 
 ## List All Kubernetes Contexts
 
@@ -216,16 +225,17 @@ aks-production-west
 ctx list
 ```
 
-Example:
+Example output:
 
 ```text
 CURRENT   NAME
-*         aks-production-west
-          aks-development-north
+*         aks-dev-west
+          aks-dev-east
+          aks-prod-west
           docker-desktop
 ```
 
-***
+---
 
 ## Show Registered Clusters
 
@@ -235,16 +245,16 @@ Displays all clusters known to the script.
 ctx clusters
 ```
 
-Example:
+Example output:
 
 ```text
-dev-we
-acc-we
-production-west
-production-north
+dev-east
+dev-west
+prod-west
+sandbox
 ```
 
-***
+---
 
 ## Delete Kubernetes Context
 
@@ -257,18 +267,18 @@ ctx delete <alias>
 Example:
 
 ```bash
-ctx delete development-west
+ctx delete dev-west
 ```
 
 ⚠️ This only removes the local Kubernetes context.
 
 It does **not**:
 
-* delete the AKS cluster
-* delete Azure resources
-* remove subscriptions
+- Delete the AKS cluster
+- Delete Azure resources
+- Remove subscriptions
 
-***
+---
 
 ## Remove Cluster Registration
 
@@ -281,79 +291,107 @@ ctx remove-cluster <alias>
 Example:
 
 ```bash
-ctx remove-cluster development-west
+ctx remove-cluster dev-west
 ```
 
 ⚠️ This does not modify kubeconfig.
 
 Use `ctx delete` if you also want to remove the Kubernetes context.
 
-***
+---
 
 # Example Workflow
 
-### Register clusters
+### Register Clusters
 
 ```bash
-ctx add production-west \
-12345678-1234-1234-1234-123456789abc \
-rg-aks-production \
-aks-west-production
+ctx add dev-west \
+xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
+rg-dev-west \
+aks-dev-west
 
+ctx add dev-east \
+xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
+rg-dev-east \
+aks-dev-east
+
+ctx add prod-west \
+yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy \
+rg-prod-west \
+aks-prod-west
 ```
 
-### Create contexts
+### Create Contexts
 
 ```bash
-ctx create production-west
-ctx create development-north
+ctx create dev-west
+
+ctx create prod-west
 ```
 
-### Switch between contexts
+### Switch Between Contexts
 
 ```bash
-ctx switch production-west
+ctx switch dev-west
 
-ctx switch production-north
+ctx switch prod-west
 ```
 
-### Verify current context
+### Verify Current Context
 
 ```bash
 ctx current
 ```
 
-### List all contexts
+### List All Contexts
 
 ```bash
 ctx list
 ```
 
-### Delete a local context
+### Delete a Local Context
 
 ```bash
-ctx delete development-west
+ctx delete dev-west
 ```
 
-### Remove cluster definition
+### Remove Cluster Definition
 
 ```bash
-ctx remove-cluster development-west
+ctx remove-cluster dev-west
 ```
 
-***
+---
+
+# Configuration File Example
+
+Example `~/.ctx-clusters.conf`:
+
+```text
+dev-west|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|rg-dev-west|aks-dev-west
+dev-east|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|rg-dev-east|aks-dev-east
+prod-west|yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy|rg-prod-west|aks-prod-west
+sandbox|zzzzzzzz-zzzz-zzzz-zzzz-zzzzzzzzzzzz|rg-sandbox|aks-sandbox
+```
+
+---
 
 # Design Principles
 
-The script intentionally:
+This utility intentionally:
 
-* Does not assume any AKS naming convention
-* Does not assume subscription-to-cluster mappings
-* Does not modify existing kubeconfig contexts unless explicitly requested
-* Keeps cluster definitions separate from the script
-* Supports future AKS clusters without code changes
+- Does not assume any AKS naming convention
+- Does not assume any subscription-to-cluster mapping
+- Does not modify existing kubeconfig contexts unless explicitly requested
+- Stores cluster definitions separately from the script
+- Supports future AKS clusters without code changes
+- Works across multiple Azure subscriptions and environments
+- Supports both Bash and Zsh
 
 This makes it reusable across teams, subscriptions, environments, and Azure landing zones.
 
-***
+---
 
+# License
+
+MIT License (or update according to your organisation's preferred licence).
