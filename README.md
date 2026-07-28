@@ -66,7 +66,7 @@ cd akscontextswitch
 ```bash
 mkdir -p ~/scripts
 
-cp ctx.sh ~/scripts/
+cp contextswitch.sh ~/scripts/
 ```
 
 ### Load the Script Automatically
@@ -74,14 +74,14 @@ cp ctx.sh ~/scripts/
 #### Bash
 
 ```bash
-echo 'source ~/scripts/ctx.sh' >> ~/.bashrc
+echo 'source ~/scripts/contextswitch.sh' >> ~/.bashrc
 source ~/.bashrc
 ```
 
 #### Zsh
 
 ```bash
-echo 'source ~/scripts/ctx.sh' >> ~/.zshrc
+echo 'source ~/scripts/contextswitch.sh' >> ~/.zshrc
 source ~/.zshrc
 ```
 
