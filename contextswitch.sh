@@ -2,7 +2,20 @@
 
 # ============================================================
 # Generic AKS Context Manager
+#
+# Examples:
+#
+#   ctx add dev-west \
+#     xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
+#     rg-dev-west \
+#     aks-dev-west
+#
+#   ctx create dev-west
+#   ctx switch dev-west
+#   ctx delete dev-west
+#
 # ============================================================
+
 
 AKS_DEFAULT_TENANT_ID="${AKS_DEFAULT_TENANT_ID:-}"
 export AKS_DEFAULT_TENANT_ID
@@ -248,18 +261,72 @@ Commands:
 
 Examples:
 
-  ctx add papa-we \
-    f1edad0e-3c56-4c3a-854d-5f76d51b6f9c \
-    rg-np-we-p30119-papa \
-    aks-np-we-p30119-papa
+  # Register a cluster
 
-  ctx create papa-we
+  ctx add dev-west \
+    xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
+    rg-dev-west \
+    aks-dev-west
 
-  ctx switch papa-we
+  # Create or refresh AKS context
 
-  ctx delete papa-we
+  ctx create dev-west
 
-  ctx remove-cluster papa-we
+  # Switch to an existing context
+
+  ctx switch dev-west
+
+  # Delete a local kubeconfig context
+
+  ctx delete dev-west
+
+  # Remove a registered cluster definition
+
+  ctx remove-cluster dev-west
+
+  # Register another cluster
+
+  ctx add prod-east \
+    yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy \
+    rg-prod-east \
+    aks-prod-east
+
+  ctx create prod-east
+
+Useful commands:
+
+  ctx clusters
+      Show all configured cluster aliases
+
+  ctx list
+      List all Kubernetes contexts in kubeconfig
+
+  ctx current
+      Show currently active Kubernetes context
+
+Configuration:
+
+  Cluster definitions are stored in:
+
+      $CTX_CLUSTER_CONFIG
+
+  Format:
+
+      alias|subscription-id|resource-group|aks-name
+
+  Example:
+
+      dev-west|xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx|rg-dev-west|aks-dev-west
+      prod-east|yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy|rg-prod-east|aks-prod-east
+
+Notes:
+
+  - The script does not assume any AKS naming convention.
+  - The script does not modify existing kubeconfig contexts
+    unless explicitly requested.
+  - Cluster definitions are stored separately from the script.
+  - New clusters can be added without modifying the script.
+  - Works with both Bash and Zsh.
 
 EOF
 }
