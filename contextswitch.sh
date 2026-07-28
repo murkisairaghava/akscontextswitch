@@ -2,7 +2,20 @@
 
 # ============================================================
 # Generic AKS Context Manager
+#
+# Examples:
+#
+#   ctx add dev-west \
+#     xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
+#     rg-dev-west \
+#     aks-dev-west
+#
+#   ctx create dev-west
+#   ctx switch dev-west
+#   ctx delete dev-west
+#
 # ============================================================
+
 
 AKS_DEFAULT_TENANT_ID="${AKS_DEFAULT_TENANT_ID:-}"
 export AKS_DEFAULT_TENANT_ID
