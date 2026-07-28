@@ -394,4 +394,4 @@ This makes it reusable across teams, subscriptions, environments, and Azure land
 
 # License
 
-MIT License (or update according to your organisation's preferred licence).
+This project is licensed under the MIT License - see the LICENSE file for details.
